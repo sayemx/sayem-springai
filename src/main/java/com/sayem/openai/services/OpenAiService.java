@@ -30,6 +30,8 @@ import org.springframework.util.MimeTypeUtils;
 
 import com.sayem.openai.text.prompttemplate.dto.CountryCuisine;
 
+import reactor.core.publisher.Flux;
+
 @Service
 public class OpenAiService {
 
@@ -65,6 +67,14 @@ public class OpenAiService {
 	
 	public ChatResponse generateAnswer(String question) {
 		return chatClient.prompt(question).call().chatResponse();
+	}
+	
+	public Flux<String> generateStreamAnswer(String question) {
+		return chatClient.prompt(question).stream().content();
+	}
+	
+	public Flux<ChatResponse> generateStreamAnswer1(String question) {
+		return chatClient.prompt(question).stream().chatResponse();
 	}
 	
 	public ChatResponse generateAnswerWithRoles(String question) {
